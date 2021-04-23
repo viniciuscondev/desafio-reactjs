@@ -47,8 +47,7 @@ OU
 4. Rodar a build de deploy do app
 
 ```
-yarn global add serve
-serve -s build
+    yarn build
 ```
 
 ## Bibliotecas utilizadas ##
