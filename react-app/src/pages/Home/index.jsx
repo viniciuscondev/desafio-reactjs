@@ -28,7 +28,7 @@ const Main = styled.main`
         background-color: #FFFFFF;
         border-radius: 5px;
         width: 366px;
-        height: 48px;
+        height: 50px;
         padding: 0px;
         padding-left: 32px;               
         font-size: 18px;        
@@ -56,21 +56,21 @@ const Main = styled.main`
 `;
 
 export default function Home() {
-    const [username, setUsername] = useState<string>();
+    const [username, setUsername] = useState();
     const history = useHistory();
 
-    async function handleSubmit(event: React.FormEvent) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
-        history.push({ pathname: '/profile', state: username });        
+        history.push({ pathname: '/perfil', state: username });        
     }
 
     return (
         <Main>
             <h1>Search Devs</h1>
-            <form>
-                <input placeholder="Type the username here..." onChange={event => setUsername(event.target.value)} />
-                <button onClick={handleSubmit}>
+            <form onSubmit={handleSubmit}>
+                <input placeholder="Type the username here..." onChange={event => setUsername(event.target.value)} required />
+                <button type="submit">
                     <BsSearch />
                     Buscar
                 </button>

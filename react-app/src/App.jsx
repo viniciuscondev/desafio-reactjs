@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import Home from './pages/Home';
-import Profile from './pages/Profile';
+import Perfil from './pages/Perfil';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -17,6 +17,22 @@ const GlobalStyle = createGlobalStyle`
     }
     input, select, textarea, button, ul, li {
       font-family:inherit;
+    }
+    ::-webkit-scrollbar {
+      width: 12px;      
+    }
+    ::-webkit-scrollbar-track {
+      background: none;
+      margin-top: 3vh;
+      margin-bottom: 3vh;
+    }    
+    ::-webkit-scrollbar-thumb {
+      background: #3B4252;
+      height: 10px;
+      border-radius: 20px;
+    }    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #485164;
     }
 `;
 
@@ -41,8 +57,8 @@ function App() {
           />
           <Route 
             exact
-            path="/profile"
-            component={Profile}
+            path="/perfil"
+            component={Perfil}
           />
         </Switch>
       </ThemeProvider>

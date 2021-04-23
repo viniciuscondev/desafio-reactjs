@@ -2,14 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { BsStar } from 'react-icons/bs';
 
-
 const Container = styled.div`
-    margin: 3%;
-    h2 {    
-        color: ${({ theme }) => theme.colors.primary};
+    margin: 2%;
+    margin-left: 480px;    
+    h2 {        
         font-style: italic;
         font-weight: 300;
         font-size: 2rem;
+    }
+    a {
+        color: ${({ theme }) => theme.colors.primary};
+        text-decoration: none;
     }
     span {
         color: ${({ theme }) => theme.colors.primary};
@@ -25,12 +28,13 @@ const Container = styled.div`
         margin-top: 1%;
     }
     li {
-        margin-right: 2rem;
+        margin-right: .8rem;
     }
 `;
 
-export default function Repository(props: any) {
-    function parseDate(date: string) {
+export default function Repository(props) {
+    
+    function parseDate(date) {
         var day1 = new Date(date);
         var now = new Date();
 
@@ -39,13 +43,18 @@ export default function Repository(props: any) {
         var diffDays = diffMilliseconds / (1000*60*60*24);
 
         return diffDays.toFixed(0);
-    }
+    }    
     
     return (
         <div>
-            {props.repositoryData.map((repository: any, index: any) => (
+            {props.repositoryData
+                .sort(
+                    function (a, b) {
+                        return b.stargazers_count - a.stargazers_count;
+                    })
+                .map((repository, index) => (
                 <Container key={index}>                
-                    <h2>{repository.name}</h2>
+                    <h2><a href={repository.html_url} target="_blank" rel="noreferrer">{repository.name}</a></h2>
                     <span>{repository.description}</span>
                     <ul>
                         <li><BsStar />{repository.stargazers_count} stars</li>
@@ -53,7 +62,7 @@ export default function Repository(props: any) {
                         <li>Updated {parseDate(repository.updated_at)} days ago</li>
                     </ul>
                 </Container>
-            ))}            
+            ))}        
         </div>
     );
 }

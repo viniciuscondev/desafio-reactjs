@@ -12,23 +12,24 @@ const Main = styled.main`
     flex-direction: row;
 `;
 
-export default function Profile() {
-    const { state }: any = useLocation();
+export default function Perfil() {
+    const { state } = useLocation();
     const [userData, setUserData] = useState({});
     const [starred, setStarred] = useState('');
-    const [repositoryData, setRepositoryData] = useState([]);
+    const [repositoryData, setRepositoryData] = useState([]);  
 
     useEffect(() => {        
         async function ApiRequest() {
             try {
                 const response = await axios.get(`https://api.github.com/users/${state}`);
 
-                const stars = await axios.get(`https://api.github.com/users/${state}/starred?per_page=1`);
-
-                const repositories = await axios.get(`https://api.github.com/users/${state}/repos`);
-                setRepositoryData(repositories.data);                
+                const stars = await axios.get(`https://api.github.com/users/${state}/starred?per_page=1`); 
                 
-                const starsParsed: any = parser(stars.headers.link);
+                const repositories = await axios.get(`https://api.github.com/users/${state}/repos`);
+                
+                setRepositoryData(repositories.data);
+                
+                const starsParsed = parser(stars.headers.link);
                 
                 setStarred(starsParsed.last.page);            
                 setUserData(response.data);                

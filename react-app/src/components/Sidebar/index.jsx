@@ -7,12 +7,17 @@ import { FiTwitter } from 'react-icons/fi';
 
 const Container = styled.div`    
     background-color: ${({ theme }) => theme.colors.primary};
-    width: 30%;    
+    width: 450px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;   
     padding: 0px 14px; 
-    padding-top: 46px;
+    padding-top: 5vh;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
 `;
 
 const User = styled.div`
@@ -25,7 +30,7 @@ const User = styled.div`
         font-weight: 100;
         font-size: 2rem;
         margin: 0;
-        margin-top: 5vh;
+        margin-top: 2vh;
     }
     h3 {
         color: ${({ theme }) => theme.colors.whiteText};
@@ -36,6 +41,11 @@ const User = styled.div`
     }
 `;
 
+const Image = styled.img`
+    width: 15vw;
+    height: 15vw;    
+`;
+
 const Description = styled.span`
     color: #8190A5;
     margin: 0px;    
@@ -44,18 +54,12 @@ const Description = styled.span`
     text-align: justify;
 `;
 
-const Image = styled.img`
-    width: 15vw;
-    height: 15vw;    
-`;
-
 const Stats = styled.ul`
     width: 100%;
-    padding: 0;
-    margin: 1vh 0px;
+    padding: 0;    
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     list-style-type: none;
     color: ${({ theme }) => theme.colors.whiteText};
     font-size: 1.1rem;
@@ -77,24 +81,28 @@ const Info = styled.ul`
     margin: 1vh 0px;    
     list-style-type: none;
     color: ${({ theme }) => theme.colors.whiteText};
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     font-style: italic;    
     font-weight: 100;    
     li {
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        margin: 12px 0px;      
+        margin: 1vh 0px;      
     }
     li span {
         margin-left: 12px;        
+    }
+    a {
+        text-decoration: none;
+        color: ${({ theme }) => theme.colors.whiteText};
     }
 `;
 
 const Button = styled.button`
     background-color: ${({ theme }) => theme.colors.whiteText};
     width: 50%;
-    margin: 1vw 0;
+    margin-bottom: 1vh;
     border: none;
     border-radius: 5px;
     height: 50px;
@@ -104,9 +112,9 @@ const Button = styled.button`
     color: ${({ theme }) => theme.colors.primary};    
 `;
 
-export default function Sidebar(props: any) {
+export default function Sidebar(props) {
     const history = useHistory();
-
+    
     function goBack() {
         history.goBack();
     }
@@ -148,11 +156,19 @@ export default function Sidebar(props: any) {
                 </li>
                 <li>
                     <HiOutlineLink />
-                    <span>{props.userData.blog ? props.userData.blog : '-'}</span>
+                    <span>
+                        <a href={props.userData.blog} target="_blank" rel="noreferrer">
+                            {props.userData.blog ? props.userData.blog : '-'}
+                        </a>
+                    </span>
                 </li>
                 <li>
                     <FiTwitter />
-                    <span>{props.userData.twitter_username ? '@' + props.userData.twitter_username : '-'}</span>
+                    <span>
+                        <a href={`https://twitter.com/${props.userData.twitter_username}`} target="_blank" rel="noreferrer">
+                            {props.userData.twitter_username ? '@' + props.userData.twitter_username : '-'}
+                        </a>
+                    </span>
                 </li>            
             </Info>
             <Button onClick={goBack}>Voltar</Button>
