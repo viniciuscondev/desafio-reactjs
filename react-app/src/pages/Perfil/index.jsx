@@ -19,28 +19,51 @@ export default function Perfil() {
     const [repositoryData, setRepositoryData] = useState([]);  
 
     useEffect(() => {        
-        async function ApiRequest() {
+        async function getUser() {
             try {
+
                 const response = await axios.get(`https://api.github.com/users/${state}`);
 
-                const stars = await axios.get(`https://api.github.com/users/${state}/starred?per_page=1`); 
-                
-                const repositories = await axios.get(`https://api.github.com/users/${state}/repos`);
-                
-                setRepositoryData(repositories.data);
-                
-                const starsParsed = parser(stars.headers.link);
-                
-                setStarred(starsParsed.last.page);            
-                setUserData(response.data);                
+                setUserData(response.data);
+
             } catch (error) {
-                alert('deu ruim');
+                alert('Falha ao obter dados do usuário');
             }            
         }
+        getUser();    
+    }, [state]);
 
-        ApiRequest();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    useEffect(() => {
+        async function getStarsCount() {
+            try {
+
+                const stars = await axios.get(`https://api.github.com/users/${state}/starred?per_page=1`);
+
+                const starsParsed = parser(stars.headers.link);
+
+                setStarred(starsParsed.last.page);
+
+            } catch (error) {
+                alert('Falha ao obter contagem de estrelas');            
+            }
+        }
+        getStarsCount();
+    }, [state]);
+
+    useEffect(() => {
+        async function getRepositories() {
+            try {
+
+                const repositories = await axios.get(`https://api.github.com/users/${state}/repos`);
+
+                setRepositoryData(repositories.data);
+                
+            } catch (error) {
+                alert('Falha ao obter repositórios');            
+            }
+        }
+        getRepositories();
+    }, [state]);
 
     return (
         <Main>
