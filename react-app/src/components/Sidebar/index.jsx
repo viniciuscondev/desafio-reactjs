@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
 import { BsPeople, BsHeart, BsStar, BsBuilding } from 'react-icons/bs';
 import { HiOutlineLocationMarker, HiOutlineMail, HiOutlineLink } from 'react-icons/hi';
 import { FiTwitter } from 'react-icons/fi';
+
+import BackButton from '../BackButton';
 
 const Container = styled.div`    
     background-color: ${({ theme }) => theme.colors.primary};
@@ -99,25 +100,7 @@ const Info = styled.ul`
     }
 `;
 
-const Button = styled.button`
-    background-color: ${({ theme }) => theme.colors.whiteText};
-    width: 50%;
-    margin-bottom: 1vh;
-    border: none;
-    border-radius: 5px;
-    height: 50px;
-    font-style: italic;
-    font-size: 1rem;
-    cursor: pointer;
-    color: ${({ theme }) => theme.colors.primary};    
-`;
-
-export default function Sidebar(props) {
-    const history = useHistory();
-    
-    function goBack() {
-        history.goBack();
-    }
+export default function Sidebar(props) {    
 
     return (
         <Container>
@@ -171,7 +154,7 @@ export default function Sidebar(props) {
                     </span>
                 </li>            
             </Info>
-            <Button onClick={goBack}>Voltar</Button>
+            <BackButton />
         </Container>
     );
 }

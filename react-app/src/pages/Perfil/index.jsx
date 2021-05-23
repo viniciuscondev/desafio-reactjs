@@ -6,17 +6,38 @@ import styled from 'styled-components';
 
 import Sidebar from '../../components/Sidebar';
 import Repository from '../../components/Repository';
+import BackButton from '../../components/BackButton';
 
 const Main = styled.main`
     display: flex;
     flex-direction: row;
 `;
 
+const Errors = styled.div`
+    background-color: ${({ theme }) => theme.colors.primary};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+    ul {        
+        list-style-type: none;        
+    }
+
+    li {
+        font-size: 2rem;
+        color: #d43c3c;
+        margin-bottom: 14px;
+    }
+`;
+
 export default function Perfil() {
     const { state } = useLocation();
     const [userData, setUserData] = useState({});
     const [starred, setStarred] = useState('');
-    const [repositoryData, setRepositoryData] = useState([]);  
+    const [repositoryData, setRepositoryData] = useState([]);
+    const [errors, setErrors] = useState([':(']);
 
     useEffect(() => {        
         async function getUser() {
@@ -27,7 +48,7 @@ export default function Perfil() {
                 setUserData(response.data);
 
             } catch (error) {
-                alert('Falha ao obter dados do usuário');
+                setErrors(errors => [...errors, 'Falha ao obter dados do usuário']);
             }            
         }
         getUser();    
@@ -44,7 +65,7 @@ export default function Perfil() {
                 setStarred(starsParsed.last.page);
 
             } catch (error) {
-                alert('Falha ao obter contagem de estrelas');            
+                setErrors(errors => [...errors, 'Falha ao obter contagem de estrelas']);            
             }
         }
         getStarsCount();
@@ -59,16 +80,31 @@ export default function Perfil() {
                 setRepositoryData(repositories.data);
                 
             } catch (error) {
-                alert('Falha ao obter repositórios');            
+                setErrors(errors => [...errors, 'Falha ao obter repositórios']);                
             }
         }
         getRepositories();
     }, [state]);
 
-    return (
-        <Main>
-            <Sidebar userData={userData} starred={starred} />
-            <Repository repositoryData={repositoryData} />
-        </Main>
-    );
+    if (errors.length <= 1) {
+        return (
+            <Main>            
+                <Sidebar userData={userData} starred={starred} />
+                <Repository repositoryData={repositoryData} />
+            </Main>
+        );
+    } else {
+        return(
+            <Errors>
+                <div>
+                    {errors.map((error, index) => (
+                        <ul key={index}>
+                            <li>{error}</li>
+                        </ul>
+                    ))}
+                <BackButton />
+                </div>
+            </Errors>
+        );
+    }
 }

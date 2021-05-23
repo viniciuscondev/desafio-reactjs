@@ -4,6 +4,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import Home from './pages/Home';
 import Perfil from './pages/Perfil';
+import NotFound from './pages/NotFound';
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -44,7 +45,7 @@ const theme = {
   },
 };
 
-function App() {
+function Routes() {
   return (
     <BrowserRouter>      
       <ThemeProvider theme={theme}>
@@ -52,13 +53,17 @@ function App() {
         <Switch>        
           <Route 
             exact
-            path="/"
-            component={Home}
+            path="/perfil"
+            component={Perfil}
           />
           <Route 
             exact
-            path="/perfil"
-            component={Perfil}
+            path="/"
+            component={Home}
+          />
+          <Route
+            path="*"
+            component={NotFound}
           />
         </Switch>
       </ThemeProvider>
@@ -66,4 +71,4 @@ function App() {
   );
 }
 
-export default App;
+export default Routes;
